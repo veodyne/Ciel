@@ -1,8 +1,3 @@
-#uses only vanilla python libraries, doesn't require pip install
-#has its own terminal for running cmd prompt inputs and pip installs
-#can run, save, and import python files
-#standalone ide
-
 from tkinter import *
 from tkinter import filedialog
 import os
