@@ -85,7 +85,7 @@ class App(Tk):
         self.inputBox.config(xscrollcommand=self.inputScrollBar.set)
         self.inputScrollBar.config(command=self.onScroll)
 
-        self.inputBox.bind("<KeyRelease>", self.letterCheck)
+        self.inputBox.bind("<KeyRelease>", self.keyEvents)
         self.inputBox.bind("<Key>", self.undoRedo)
 
         self.outputFrame = Frame(self.mainFrame, height=self.SCREENHEIGHT, width=int(self.SCREENWIDTH)//2, bg="#222121")
@@ -127,7 +127,7 @@ class App(Tk):
         self.cmdCommand = compile(f"os.system({self.rawCommand})", "cmdcode", "exec")
         exec(self.cmdCommand)
 
-    def letterCheck(self, event): #general function for keyevents in inputBox widget
+    def keyEvents(self, event): #general function for keyevents in inputBox widget
         global level
         self.key = event.keysym
         self.indent = "    "
@@ -366,16 +366,16 @@ class newWindow(Toplevel):
         self.mainFrame = Frame(self, height=self.SCREENHEIGHT, width=int(self.SCREENWIDTH), bg="#3B3939")
         self.mainFrame.pack()
 
-        self.inputFrame = Frame(self.mainFrame, height=self.SCREENHEIGHT, width=int(int(self.SCREENWIDTH)//11.5), bg="#AAAAAA")
+        self.inputFrame = Frame(self.mainFrame, height=self.SCREENHEIGHT, width=int(int(self.SCREENWIDTH)//14.2), bg="#AAAAAA")
         self.inputFrame.pack(side=LEFT)
-        self.inputBox = Text(self.inputFrame, wrap="none", height=int(self.SCREENHEIGHT//23), width=int(int(self.SCREENWIDTH)//11.5), bg="#3B3939", foreground="#FFFFFF", font=("Consolas"))
+        self.inputBox = Text(self.inputFrame, wrap="none", height=int(self.SCREENHEIGHT//23), width=int(int(self.SCREENWIDTH)//14.2), bg="#3B3939", foreground="#FFFFFF", font=("Consolas"))
         self.inputBox.pack(side=TOP)
         self.inputScrollBar = Scrollbar(self.inputFrame, orient=HORIZONTAL)
         self.inputScrollBar.pack(side=BOTTOM, fill="x")
         self.inputBox.config(xscrollcommand=self.inputScrollBar.set)
         self.inputScrollBar.config(command=self.onScroll)
 
-        self.inputBox.bind("<KeyRelease>", self.letterCheck)
+        self.inputBox.bind("<KeyRelease>", self.keyEvents)
         self.inputBox.bind("<Key>", self.undoRedo)
 
         self.outputFrame = Frame(self.mainFrame, height=self.SCREENHEIGHT, width=int(self.SCREENWIDTH)//2, bg="#222121")
@@ -417,8 +417,28 @@ class newWindow(Toplevel):
         self.cmdCommand = compile(f"os.system({self.rawCommand})", "cmdcode", "exec")
         exec(self.cmdCommand)
 
-    def letterCheck(self, event):
+    def keyEvents(self, event): #general function for keyevents in inputBox widget
+        global level
         self.key = event.keysym
+        self.indent = "    "
+
+        for x in range(level):
+            self.indent = self.indent + "    "
+
+        if self.key == "colon":
+            currentIndex = self.inputBox.index("insert")
+            self.inputBox.insert(currentIndex, "\n" + f"{self.indent}")
+            level = level + 1
+
+        if self.key == "Return":
+            level = 0
+            self.indent = "    "
+
+        if self.key == "Tab":
+            currentIndex = float(self.inputBox.index("insert"))
+            self.inputBox.delete(float(currentIndex-0.1), float(currentIndex))
+            self.inputBox.insert(float(currentIndex-0.1), "    ")
+
 
         self.lines.configure(state=NORMAL) #Update display showing number of lines and characters of file.
         self.lines.delete("1.0", END)
@@ -558,8 +578,13 @@ class newWindow(Toplevel):
 
     def log_error(self, message):
         self.outputBox.configure(state=NORMAL)
-        with open("ErrorLog.txt", "a+") as myfile:
-            myfile.write(f'ERROR : {message} \n')
+        try:
+            with open("ErrorLog.txt", "a+") as myfile:
+                myfile.write(f'ERROR : {message} \n')
+        except:
+            with open("ErrorLog.txt", "w+") as myfile:
+                myfile.write(f'ERROR : {message} \n')
+
         self.outputBox.insert("1.0", f"ERROR: {message} \n")
         self.outputBox.configure(state=DISABLED)
 
