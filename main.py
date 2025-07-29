@@ -20,6 +20,7 @@ funcList = []
 currentState = ""
 undoStack = []
 redoStack = []
+level = 0
 
 
 class App(Tk):
@@ -126,8 +127,28 @@ class App(Tk):
         self.cmdCommand = compile(f"os.system({self.rawCommand})", "cmdcode", "exec")
         exec(self.cmdCommand)
 
-    def letterCheck(self, event):
+    def letterCheck(self, event): #general function for keyevents in inputBox widget
+        global level
         self.key = event.keysym
+        self.indent = "    "
+
+        for x in range(level):
+            self.indent = self.indent + "    "
+
+        if self.key == "colon":
+            currentIndex = self.inputBox.index("insert")
+            self.inputBox.insert(currentIndex, "\n" + f"{self.indent}")
+            level = level + 1
+
+        if self.key == "Return":
+            level = 0
+            self.indent = "    "
+
+        if self.key == "Tab":
+            currentIndex = float(self.inputBox.index("insert"))
+            self.inputBox.delete(float(currentIndex-0.1), float(currentIndex))
+            self.inputBox.insert(float(currentIndex-0.1), "    ")
+
 
         self.lines.configure(state=NORMAL) #Update display showing number of lines and characters of file.
         self.lines.delete("1.0", END)
@@ -267,8 +288,13 @@ class App(Tk):
 
     def log_error(self, message):
         self.outputBox.configure(state=NORMAL)
-        with open("ErrorLog.txt", "a+") as myfile:
-            myfile.write(f'ERROR : {message} \n')
+        try:
+            with open("ErrorLog.txt", "a+") as myfile:
+                myfile.write(f'ERROR : {message} \n')
+        except:
+            with open("ErrorLog.txt", "w+") as myfile:
+                myfile.write(f'ERROR : {message} \n')
+
         self.outputBox.insert("1.0", f"ERROR: {message} \n")
         self.outputBox.configure(state=DISABLED)
 
