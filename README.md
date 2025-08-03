@@ -30,6 +30,5 @@ Ciel is a lightweight Python IDE focused on simplicity and speed. It includes bu
 - Add more customizable build flags and plugin options.
 
 ## License
-
-[MIT License](LICENSE)
+> 📜 Licensed under **CC BY-NC 4.0** – Non-commercial use only.
 
