@@ -1,12 +1,12 @@
 # Ciel IDE
 
-Ciel is a lightweight Python IDE focused on simplicity and speed. It includes built-in compilation support using Nuitka to build your Python programs.
+Ciel is a lightweight Python IDE focused on simplicity and speed. It includes built-in compilation support using [Nuitka](https://nuitka.net/) to build your Python programs.
 
 <img width="1919" height="1079" alt="Screenshot 2025-08-03 221843" src="https://github.com/user-attachments/assets/874343e5-e0c5-4063-ae3b-5b481c667201" />
 
 ## Features
 
-- **Built-in Compiler:** Integrated support for compiling Python scripts into fast executables using [Nuitka](https://nuitka.net/).
+- **Built-in Compiler:** Integrated support for compiling Python scripts into fast executables
 - **Build Options:** Supports `onefile` and `standalone` build types using the MinGW64 compiler backend.
 ## Usage
 
