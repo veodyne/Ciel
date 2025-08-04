@@ -10,8 +10,8 @@ Ciel is a lightweight Python IDE focused on simplicity and speed. It includes bu
 - **Build Options:** Supports `onefile` and `standalone` build types using the MinGW64 compiler backend.
 ## Usage
 
-1. Open your Python file in Ciel. 
-2. Click **Compile** to compile your script.
+1. Open Ciel. 
+2. Click **Compile** and select the file in your directory to compile your script.
 3. Choose your desired build type (`onefile` or `standalone`).
 4. A command prompt window will open, showing compilation progress and any errors. Nuitka will install the MinGW64 compiler for you.
 
