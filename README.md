@@ -6,9 +6,9 @@ Ciel is a lightweight Python IDE focused on simplicity and speed. It includes bu
 
 ## Features
 
-- **Built-in Compiler:** Integrated support for compiling Python scripts into fast executables
+- **Built-in Compiler:** Integrated support for compiling Python scripts into fast executables.
 - **Build Options:** Supports `onefile` and `standalone` build types using the MinGW64 compiler backend.
-## Usage
+## Compiler Usage
 
 1. Open Ciel. 
 2. Click **Compile** and select the file in your directory to compile.
